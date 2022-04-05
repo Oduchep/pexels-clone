@@ -1,5 +1,5 @@
 <template>
-    <nav :class="pageScrolled ? 'bg-[#232A34]' : 'bg-transparent'" class="fixed w-full px-6 py-3 flex items-center justify-between">
+    <nav :class="pageScrolled ? 'bg-[#232A34]' : 'bg-transparent'" class="w-full px-6 py-3 flex items-center justify-between z-20 top-0 left-0">
       <router-link class="flex items-center text-white hover:text-gray-200" to="/">
         <svg class="rounded-lg" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 32 32">
           <path d="M2 0h28a2 2 0 0 1 2 2v28a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" fill="#05A081"></path>
@@ -40,29 +40,13 @@ export default {
   components: {
     Input,
   },
-  data() {
-      return {
-          pageScrolled: false
-          }
+  props: {
+    pageScrolled: Boolean,
   },
-
-  // a beforeMount call to add a listener to the window
-  beforeMount () {
-      window.addEventListener('scroll', this.handleScroll);
-  },
-
-  methods: {
-      // the function to call when the user scrolls, added as a method
-      handleScroll(){
-          // when the user scrolls, check the pageYOffset
-          if(window.pageYOffset>=120){
-              // user is scrolled
-             this.pageScrolled = true
-          }else{
-              // user is at top of page
-              this.pageScrolled = false
-          }
-      }
-  }
+  // data() {
+  //     return {
+  //         pageScrolled: false,
+  //         }
+  // },
 }
 </script>
