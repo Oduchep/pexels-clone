@@ -1,10 +1,27 @@
 <template>
     <Header/>
     <MainNav/>
-    <main class="px-4">
-      <div class="flex justify-between flex-wrap">
-        <Card :key="image.id" v-for="image in images.hits" :src="image.webformatURL" :user="image.user" :userSrc="image.userImageURL"/>
-      </div>
+    <main class="px-6">
+      <section class="flex justify-between items-center py-5">
+        <h2 class="text-lg font-semibold"> Free Stock Photos </h2>
+        <button class="flex items-center">
+          <span class="text-sm font-medium"> Trending </span>
+          <span class="px-3">
+            <i class="bi bi-caret-down-fill"></i>
+          </span>
+        </button>
+      </section>
+      <section class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="flex flex-1 flex-col gap-4">
+          <Card :key="data.id" v-for="data in firstData" :src="data.webformatURL" :user="data.user" :userSrc="data.userImageURL"/>
+        </div>
+        <div class="flex flex-1 flex-col gap-4">
+          <Card :key="data.id" v-for="data in secondData" :src="data.webformatURL" :user="data.user" :userSrc="data.userImageURL"/>
+        </div>
+        <div class="col-span-2 lg:col-auto lg:flex flex-1 flex-col gap-4 grid grid-cols-2">
+          <Card :key="data.id" v-for="data in thirdData" :src="data.webformatURL" :user="data.user" :userSrc="data.userImageURL"/>
+        </div>
+      </section>
       
   </main>
 </template>
@@ -23,7 +40,11 @@ export default {
   },
   data() {
     return {
-      images: []
+      arrayLength: 3,
+      images: [[], [], []],
+      firstData: [],
+      secondData: [],
+      thirdData: [],
     }
   },
   mounted() {
@@ -31,11 +52,24 @@ export default {
   },
   methods: {
       async fetchImages() {
-      const res = await fetch('https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&per_page=12&orientation=vertical&image_type=photo&editors_choice=true')
+      const res = await fetch('https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&per_page=27&orientation=vertical&image_type=photo&editors_choice=true')
       const data = await res.json()
-      this.images = data
+      const wordsPerLine = Math.ceil(data.hits.length / 3)
+
+      for (let line = 0; line < this.arrayLength; line++) {
+        for (let i = 0; i < wordsPerLine; i++) {
+          const value = data.hits[i + line * wordsPerLine]
+          if (!value) continue //avoid adding "undefined" values
+          this.images[line].push(value)
+        }
+      }
+
+      this.firstData = this.images[0]
+      this.secondData = this.images[1]
+      this.thirdData = this.images[2]
+      console.log(typeof this.images)
+      console.log(data.hits)
       console.log(this.images)
-      console.log({...this.images.hits})
       return this.images
     },
   }
