@@ -2,13 +2,17 @@
     <Header/>
     <MainNav/>
     <main class="px-6">
-      <section class="flex justify-between items-center py-5">
+      <section class="flex justify-between items-center">
         <h2 class="text-lg font-semibold"> Free Stock Photos </h2>
-        <button class="flex items-center">
+        <button class="relative group flex items-center py-4 h-full">
           <span class="text-sm font-medium"> Trending </span>
-          <span class="px-3">
+          <span class="px-3 text-xs">
             <i class="bi bi-caret-down-fill"></i>
           </span>
+
+          <div class="absolute -bottom-[6.4rem] right-0 z-10 hidden group-hover:block">
+          <CategoryList/>
+          </div>
         </button>
       </section>
       <section class="grid grid-cols-2 lg:grid-cols-3 gap-4">
@@ -30,6 +34,7 @@
 import Header from '../components/Header'
 import MainNav from '../components/MainNav'
 import Card from '../components/Card'
+import CategoryList from '../components/CategoryList.vue'
 
 export default {
   name: 'Home',
@@ -37,6 +42,7 @@ export default {
     Header,
     MainNav,
     Card,
+    CategoryList
   },
   data() {
     return {
