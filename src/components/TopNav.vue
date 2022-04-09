@@ -1,5 +1,5 @@
 <template>
-    <nav :class="pageScrolled ? 'bg-[#232A34]' : 'bg-transparent'" class="w-full px-6 py-3 flex items-center justify-between z-20 top-0 left-0">
+    <nav :class="pageScrolled ? 'bg-[#232A34]' : 'bg-transparent'" class="relative w-full px-6 py-3 flex items-center justify-between z-20 top-0 left-0">
       <router-link class="flex items-center text-white hover:text-gray-200" to="/">
         <svg class="rounded-lg" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 32 32">
           <path d="M2 0h28a2 2 0 0 1 2 2v28a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" fill="#05A081"></path>
@@ -26,10 +26,36 @@
 
         <button class="hidden mx-2 md:block px-8 py-2 rounded font-semibold text-base text-white hover:text-gray-200 bg-btn-green"> Join </button>
 
-        <button class="md:hidden text-lg text-white">
+        <button @click="toggleMenu" class="md:hidden text-lg text-white">
             <i class="fa-solid fa-bars"></i>
         </button>
-      </div>      
+      </div>
+
+      <div :class="menuOpen ? 'block' : 'hidden'" class="absolute w-full left-0 top-[3.8rem] bg-[#232A34] py-2 px-4">
+        <ul class="font-semibold text-xl text-gray-300 hover:text-white">
+          <li class="py-3"> Home </li>
+          <hr class="bg-gray-500 my-4">
+          <li class="my-2"> Discover Photos </li>
+          <li class="my-2"> Popular Searches </li>
+          <li class="my-2"> Free Videos </li>
+          <li class="my-2"> Challenges </li>
+          <li class="my-2"> Leaderboard </li>
+          <li class="my-2"> Pexels Blog </li>
+        </ul>
+        
+        <ul class="text-lg text-gray-300 hover:text-white">
+          <hr class="bg-gray-500 my-4">
+          <li class="my-2"> Login </li>
+          <li class="my-2"> Join </li>
+          <li class="my-2"> Change Language </li>
+          <li class="my-2"> License </li>
+          <hr class="bg-gray-500 my-4">
+          <li class="my-2"> Apps And PS Plugin </li>
+          <li class="my-2"> FAQ </li>
+          <li class="my-2"> About Us </li>
+          <li class="my-2"> Imprint And Terms </li>
+        </ul>
+      </div>
     </nav>
 </template>
 
@@ -43,10 +69,16 @@ export default {
   props: {
     pageScrolled: Boolean,
   },
-  // data() {
-  //     return {
-  //         pageScrolled: false,
-  //         }
-  // },
+  data() {
+    return {
+      menuOpen: false,
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen
+      console.log(this.menuOpen)
+    }
+  }
 }
 </script>
