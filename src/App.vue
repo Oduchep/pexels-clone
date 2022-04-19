@@ -3,9 +3,13 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { provide } from "vue"
+import store from "@/store"
+
 export default {
-  components: {}
+  setup() {
+    provide('store', store)
+  }
 }
 </script>
 
