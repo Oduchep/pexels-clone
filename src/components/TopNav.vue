@@ -39,11 +39,9 @@
     </router-link>
 
     <div :class="pageScrolled ? 'block w-9/12 lg:w-1/2' : 'hidden'">
-      <Input
-        placeholder="Search for free photos"
-        v-model="searchText"
-        onSubmit="search"
-      />
+      <form @submit.prevent="search">
+        <Input placeholder="Search for free photos" v-model="searchText" />
+      </form>
     </div>
 
     <div class="flex">
@@ -113,6 +111,8 @@
 <script>
 import Input from "./Input";
 import { ref } from "vue";
+import { useCountStore } from "@/store/index";
+
 export default {
   name: "TopNav",
   components: {
@@ -123,8 +123,12 @@ export default {
   },
 
   setup() {
+    const store = useCountStore();
+    const perPage = ref(27);
+    const page = ref(1);
     const menuOpen = ref(false);
-    const searchText = ref("");
+    const searchText = ref(store.searchText);
+    const searchResult = ref(store.result);
 
     const toggleMenu = () => {
       menuOpen.value = !menuOpen.value;
@@ -133,9 +137,17 @@ export default {
     };
 
     // i stopped here. Please check the form
-    const search = () => {
-      console.log("I searched ...");
-      return;
+    const search = async () => {
+      const res = await fetch(
+        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&q=${searchText.value}&page=${page.value}&per_page=${perPage.value}&orientation=vertical&image_type=photo&editors_choice=true`
+      );
+      const data = await res.json();
+      searchResult.value = data.hits;
+      window.location.href = "/search";
+      console.log(data.hits);
+      console.log(searchResult.value);
+      console.log(searchText.value);
+      return searchResult;
     };
 
     return {

@@ -1,8 +1,5 @@
 <template>
-  <form
-    @submit.prevent="onSubmit"
-    class="w-full flex items-center justify-between rounded-lg bg-white"
-  >
+  <div class="w-full flex items-center justify-between rounded-lg bg-white">
     <input
       class="
         w-10/12
@@ -34,16 +31,27 @@
     >
       <i class="bi bi-search"></i>
     </button>
-  </form>
+  </div>
 </template>
 
 <script>
 export default {
   name: "Input",
   props: {
+    placeholder: String,
     modelValue: String,
     onSubmit: Function,
   },
+
+  //   setup() {
+  //     const onSubmit = () => {
+  //       return console.log("I searched ...");
+  //     };
+
+  //     return {
+  //       onSubmit,
+  //     };
+  //   },
 };
 </script>
 

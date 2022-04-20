@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useCountStore } from "@/store/index";
 import Header from "../components/Header";
 import MainNav from "../components/MainNav";
@@ -50,7 +50,8 @@ export default {
   },
   setup() {
     const store = useCountStore();
-    const perPage = ref(18);
+    const perPage = ref(27);
+    const page = ref(1);
     const arrayLength = 3;
     let images = ref([[], [], []]);
     let firstData = ref([]);
@@ -59,15 +60,15 @@ export default {
 
     onMounted(() => {
       fetchImages();
+      window.addEventListener("scroll", handleScroll);
     });
-
-    onBeforeMount(() => {
+    onUnmounted(() => {
       window.addEventListener("scroll", handleScroll);
     });
 
     const fetchImages = async () => {
       const res = await fetch(
-        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&per_page=${perPage.value}&orientation=vertical&image_type=photo&editors_choice=true`
+        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&page=${page.value}&per_page=${perPage.value}&orientation=vertical&image_type=photo&editors_choice=true`
       );
       const data = await res.json();
       const wordsPerLine = Math.ceil(data.hits.length / 3);
@@ -76,7 +77,7 @@ export default {
         for (let i = 0; i < wordsPerLine; i++) {
           const value = data.hits[i + line * wordsPerLine];
           if (!value) continue; //avoid adding "undefined" values
-          images.value[line].push(value);
+          images.value = [...images.value, images.value[line].push(value)];
         }
       }
 
@@ -84,18 +85,19 @@ export default {
       secondData.value = images.value[1];
       thirdData.value = images.value[2];
       console.log(data.hits);
+      console.log(images.value);
       return images;
     };
 
     const handleScroll = () => {
-      const update = 18;
+      const update = 1;
       if (
         window.pageYOffset + window.innerHeight >
         document.body.clientHeight - 100
       ) {
-        perPage.value = perPage.value + update;
+        page.value = page.value + update;
         fetchImages();
-        console.log("near bottom!", perPage.value);
+        console.log("near bottom!", page.value);
       }
     };
 

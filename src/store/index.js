@@ -4,6 +4,6 @@ export const useCountStore = defineStore({
     id: 'Counter',
     state: () => ({
         result: [],
-        perPage: 18
+        searchText: ''
     })
 })
