@@ -1,9 +1,9 @@
-import { reactive } from "vue"
+import { defineStore } from "pinia"
 
-const state = reactive({
-    imageNumber: 18
+export const useCountStore = defineStore({
+    id: 'Counter',
+    state: () => ({
+        result: [],
+        perPage: 18
+    })
 })
-
-export default {
-    state
-}

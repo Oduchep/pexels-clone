@@ -24,64 +24,33 @@
         </div>
       </button>
     </section>
-    <section class="grid grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="flex flex-1 flex-col gap-4">
-        <Card
-          v-for="data in firstData"
-          :key="data.id"
-          :src="data.webformatURL"
-          :user="data.user"
-          :userSrc="data.userImageURL"
-        />
-      </div>
-      <div class="flex flex-1 flex-col gap-4">
-        <Card
-          v-for="data in secondData"
-          :key="data.id"
-          :src="data.webformatURL"
-          :user="data.user"
-          :userSrc="data.userImageURL"
-        />
-      </div>
-      <div
-        class="
-          col-span-2
-          lg:col-auto lg:flex
-          flex-1 flex-col
-          gap-4
-          grid grid-cols-2
-        "
-      >
-        <Card
-          v-for="data in thirdData"
-          :key="data.id"
-          :src="data.webformatURL"
-          :user="data.user"
-          :userSrc="data.userImageURL"
-        />
-      </div>
-    </section>
+    <Masonry
+      :firstData="firstData"
+      :secondData="secondData"
+      :thirdData="thirdData"
+    />
   </main>
 </template>
 
 <script>
-import { ref, inject, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
+import { useCountStore } from "@/store/index";
 import Header from "../components/Header";
 import MainNav from "../components/MainNav";
-import Card from "../components/Card";
-import CategoryList from "../components/CategoryList.vue";
+import CategoryList from "../components/CategoryList";
+import Masonry from "../components/Masonry";
 
 export default {
   name: "Home",
   components: {
     Header,
     MainNav,
-    Card,
     CategoryList,
+    Masonry,
   },
   setup() {
-    const store = inject("store");
-    const perPage = ref(24);
+    const store = useCountStore();
+    const perPage = ref(18);
     const arrayLength = 3;
     let images = ref([[], [], []]);
     let firstData = ref([]);
@@ -115,10 +84,6 @@ export default {
       secondData.value = images.value[1];
       thirdData.value = images.value[2];
       console.log(data.hits);
-      // console.log(images);
-      // console.log(firstData);
-      // console.log(secondData);
-      // console.log(thirdData);
       return images;
     };
 
@@ -135,7 +100,6 @@ export default {
     };
 
     return {
-      store,
       perPage,
       fetchImages,
       firstData,

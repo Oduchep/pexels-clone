@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import './assets/tailwind.css'
 
-createApp(App).use(router).mount('#app')
+const pinia = createPinia();
+const app = createApp(App).use(router).use(pinia);
+// app.config.globalProperties.mainStore = useMainStore();
+app.mount('#app');

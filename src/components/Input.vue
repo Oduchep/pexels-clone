@@ -1,19 +1,50 @@
 <template>
-    <form class="w-full flex items-center justify-between rounded-lg bg-white">
-        <input class="w-10/12 md:w-11/12 rounded-lg pl-5 py-[10px] focus:outline-none text-base text-black font-medium placeholder:text-zinc-400 placeholder:text-base placeholder:font-normal" type="text" name="search" :placeholder="placeholder" />
-        <button class="w-2/12 md:w-1/12 rounded-lg py-[10px] text-lg font-light text-slate-500">
-            <i class="bi bi-search"></i>
-        </button>
-    </form>
+  <form
+    @submit.prevent="onSubmit"
+    class="w-full flex items-center justify-between rounded-lg bg-white"
+  >
+    <input
+      class="
+        w-10/12
+        md:w-11/12
+        rounded-lg
+        pl-5
+        py-[10px]
+        focus:outline-none
+        text-base text-black
+        font-medium
+        placeholder:text-zinc-400 placeholder:text-base placeholder:font-normal
+      "
+      type="text"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      name="search"
+      :placeholder="placeholder"
+    />
+    <button
+      class="
+        w-2/12
+        md:w-1/12
+        rounded-lg
+        py-[10px]
+        text-lg
+        font-light
+        text-slate-500
+      "
+    >
+      <i class="bi bi-search"></i>
+    </button>
+  </form>
 </template>
 
 <script>
 export default {
-  name: 'Input',
+  name: "Input",
   props: {
-      placeholder: String,
-  }
-}
+    modelValue: String,
+    onSubmit: Function,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
