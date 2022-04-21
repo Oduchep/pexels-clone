@@ -40,7 +40,10 @@
 
     <div :class="pageScrolled ? 'block w-9/12 lg:w-1/2' : 'hidden'">
       <form @submit.prevent="search">
-        <Input placeholder="Search for free photos" v-model="searchText" />
+        <Input
+          placeholder="Search for free photos"
+          v-model="store.searchText"
+        />
       </form>
     </div>
 
@@ -112,6 +115,7 @@
 import Input from "./Input";
 import { ref } from "vue";
 import { useCountStore } from "@/store/index";
+import { useRouter } from "vue-router";
 
 export default {
   name: "TopNav",
@@ -124,11 +128,8 @@ export default {
 
   setup() {
     const store = useCountStore();
-    const perPage = ref(27);
-    const page = ref(1);
+    const router = useRouter();
     const menuOpen = ref(false);
-    const searchText = ref(store.searchText);
-    const searchResult = ref(store.result);
 
     const toggleMenu = () => {
       menuOpen.value = !menuOpen.value;
@@ -136,25 +137,17 @@ export default {
       return menuOpen.value;
     };
 
-    // i stopped here. Please check the form
-    const search = async () => {
-      const res = await fetch(
-        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&q=${searchText.value}&page=${page.value}&per_page=${perPage.value}&orientation=vertical&image_type=photo&editors_choice=true`
-      );
-      const data = await res.json();
-      searchResult.value = data.hits;
-      window.location.href = "/search";
-      console.log(data.hits);
-      console.log(searchResult.value);
-      console.log(searchText.value);
-      return searchResult;
+    const search = () => {
+      localStorage.setItem("searchText", store.searchText);
+      router.push("search");
+      return store.result;
     };
 
     return {
       menuOpen,
-      searchText,
       toggleMenu,
       search,
+      store,
     };
   },
 };

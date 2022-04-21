@@ -19,6 +19,7 @@
       :placeholder="placeholder"
     />
     <button
+      @click="onSubmit"
       class="
         w-2/12
         md:w-1/12
@@ -42,16 +43,6 @@ export default {
     modelValue: String,
     onSubmit: Function,
   },
-
-  //   setup() {
-  //     const onSubmit = () => {
-  //       return console.log("I searched ...");
-  //     };
-
-  //     return {
-  //       onSubmit,
-  //     };
-  //   },
 };
 </script>
 

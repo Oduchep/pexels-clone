@@ -15,8 +15,11 @@
         creators.
       </h1>
 
-      <form>
-        <Input placeholder="Search for free photos and videos" />
+      <form @submit.prevent="search">
+        <Input
+          placeholder="Search for free photos and videos"
+          v-model="store.searchText"
+        />
       </form>
 
       <p class="text-white text-sm my-2">
@@ -30,6 +33,9 @@
 </template>
 
 <script>
+import { ref, onBeforeMount } from "vue";
+import { useCountStore } from "@/store/index";
+import { useRouter } from "vue-router";
 import TopNav from "./TopNav";
 import Input from "./Input";
 
@@ -39,30 +45,35 @@ export default {
     TopNav,
     Input,
   },
-  data() {
-    return {
-      pageScrolled: false,
+
+  setup() {
+    onBeforeMount(() => {
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    const pageScrolled = ref(false);
+    const store = useCountStore();
+    const router = useRouter();
+
+    const handleScroll = () => {
+      window.pageYOffset >= 120
+        ? (pageScrolled.value = true)
+        : (pageScrolled.value = false);
+      return pageScrolled;
     };
-  },
-  // a beforeMount call to add a listener to the window
-  beforeMount() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
 
-  methods: {
-    // the function to call when the user scrolls, added as a method
-    handleScroll() {
-      // when the user scrolls, check the pageYOffset
-      if (window.pageYOffset >= 120) {
-        // user is scrolled
-        this.pageScrolled = true;
-      } else {
-        // user is at top of page
-        this.pageScrolled = false;
-      }
+    const search = () => {
+      localStorage.setItem("searchText", store.searchText);
+      router.push("search");
+      return store.result;
+    };
 
-      return this.pageScrolled;
-    },
+    return {
+      store,
+      handleScroll,
+      pageScrolled,
+      search,
+    };
   },
 };
 </script>
