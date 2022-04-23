@@ -1,6 +1,6 @@
 <template>
   <nav
-    :class="pageScrolled ? 'bg-[#232A34]' : 'bg-transparent'"
+    :class="pageScrolled ? bgTrue : 'bg-transparent'"
     class="
       relative
       w-full
@@ -124,6 +124,7 @@ export default {
   },
   props: {
     pageScrolled: Boolean,
+    bgTrue: String,
   },
 
   setup() {
@@ -139,7 +140,7 @@ export default {
 
     const search = () => {
       localStorage.setItem("searchText", store.searchText);
-      router.push("search");
+      router.push(`/search/${localStorage.getItem("searchText")}`);
       return store.result;
     };
 

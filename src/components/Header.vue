@@ -6,7 +6,7 @@
     "
   >
     <div class="fixed z-20 w-full">
-      <TopNav :pageScrolled="pageScrolled" />
+      <TopNav :pageScrolled="pageScrolled" :bgTrue="bgColor" />
     </div>
 
     <div class="w-4/5 md:w-3/4 lg:w-2/5 mx-auto py-32 md:py-44">
@@ -18,7 +18,7 @@
       <form @submit.prevent="search">
         <Input
           placeholder="Search for free photos and videos"
-          v-model="store.searchText"
+          v-model="store.headerSearch"
         />
       </form>
 
@@ -52,6 +52,7 @@ export default {
     });
 
     const pageScrolled = ref(false);
+    const bgColor = "bg-[#232A34]";
     const store = useCountStore();
     const router = useRouter();
 
@@ -63,8 +64,8 @@ export default {
     };
 
     const search = () => {
-      localStorage.setItem("searchText", store.searchText);
-      router.push("search");
+      localStorage.setItem("searchText", store.headerSearch);
+      router.push(`/search/${localStorage.getItem("searchText")}`);
       return store.result;
     };
 
@@ -72,6 +73,7 @@ export default {
       store,
       handleScroll,
       pageScrolled,
+      bgColor,
       search,
     };
   },

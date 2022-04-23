@@ -68,7 +68,7 @@ export default {
 
     const fetchImages = async () => {
       const res = await fetch(
-        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&page=${page.value}&per_page=${perPage.value}&orientation=vertical&image_type=photo&editors_choice=true`
+        `https://pixabay.com/api/?key=21901923-8a8873e126764c75db02c194b&page=${page.value}&per_page=${perPage.value}&image_type=photo&editors_choice=true`
       );
       const data = await res.json();
       const wordsPerLine = Math.ceil(data.hits.length / 3);

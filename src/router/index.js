@@ -15,7 +15,7 @@ const routes = [
     component: Discover
   },
   {
-    path: '/search',
+    path: '/search/:text',
     name: 'search',
     component: Search
   }

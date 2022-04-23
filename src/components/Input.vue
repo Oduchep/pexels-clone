@@ -8,7 +8,8 @@
         pl-5
         py-[10px]
         focus:outline-none
-        text-base text-black
+        text-base text-zinc-500
+        focus:text-black
         font-medium
         placeholder:text-zinc-400 placeholder:text-base placeholder:font-normal
       "

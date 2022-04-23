@@ -1,5 +1,7 @@
 <template>
-  <TopNav />
+  <div class="sticky z-20 w-full">
+    <TopNav :pageScrolled="true" :bgTrue="bgColor" />
+  </div>
   <main class="px-8 my-4">
     <h2 class="text-5xl font-semibold my-8 text-[#2c343e]">
       Nice <span class="capitalize">{{ text }}</span> Photos
@@ -17,6 +19,7 @@ import TopNav from "../components/TopNav";
 import Masonry from "../components/Masonry";
 import { useCountStore } from "@/store/index";
 import { ref, onMounted, onUnmounted } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -25,7 +28,9 @@ export default {
   },
   setup() {
     const store = useCountStore();
-    const text = localStorage.getItem("searchText");
+    const route = useRoute();
+    const text = route.params.text;
+    const bgColor = "bg-green-800";
     const arrayLength = 3;
     const perPage = ref(27);
     const page = ref(1);
@@ -36,6 +41,7 @@ export default {
 
     onMounted(() => {
       chunkData();
+      console.log(route.params.text);
       window.addEventListener("scroll", handleScroll);
     });
     onUnmounted(() => {
@@ -50,7 +56,6 @@ export default {
       store.result = data.hits;
       console.log(data.hits);
       console.log(store.result);
-      console.log(store.searchText);
 
       const wordsPerLine = Math.ceil(data.hits.length / 3);
 
@@ -66,7 +71,6 @@ export default {
       secondData.value = images.value[1];
       thirdData.value = images.value[2];
       // console.log(data.hits);
-      console.log(images.value);
       return images;
     };
 
@@ -85,6 +89,7 @@ export default {
     return {
       store,
       text,
+      bgColor,
       firstData,
       secondData,
       thirdData,
