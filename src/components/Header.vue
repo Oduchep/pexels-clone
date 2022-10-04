@@ -1,7 +1,7 @@
 <template>
   <header
     class="
-      bg-[url('https://picsum.photos/1200/1000?random=3')]
+      bg-[url('https://placeimg.com/1200/600/any')]
       bg-cover bg-no-repeat
     "
   >
